@@ -6,7 +6,7 @@
 /*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 13:04:37 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/18 14:03:03 by wphokomp         ###   ########.fr       */
+/*   Updated: 2017/09/22 23:50:15 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ char	*ft_replace_env(int *chk, char *str, char *tab)
 
 	*chk = 1;
 	ft_strdel(&tab);
-	//free(tab);
-	//tab = NULL;
 	tmp = ft_strdup(str);
 	return (tmp);
 }

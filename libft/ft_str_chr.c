@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_str_chr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 12:34:13 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/22 21:02:58 by wphokomp         ###   ########.fr       */
+/*   Created: 2017/09/04 10:23:51 by wphokomp          #+#    #+#             */
+/*   Updated: 2017/09/04 10:35:02 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_str_chr(char *s, int c)
 {
-	int i;
+	int		i;
+	int		k;
+	char	*ret;
 
-	i = 0;
-	while (s[i] != c)
-	{
-		if (s[i] == '\0')
-			return (NULL);
-		i++;
-	}
-	return ((char*)&s[i]);
+	if (!s)
+		return (0);
+	i = ft_strlen(s);
+	while (s[--i] != c)
+		;
+	if (i == 0)
+		return (0);
+	ret = (char *)malloc(sizeof(char) * i);
+	ft_bzero(ret, i);
+	k = -1;
+	while (++k < i)
+		ret[k] = s[k];
+	return (ret);
 }

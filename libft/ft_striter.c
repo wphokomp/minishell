@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_striter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 12:34:13 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/22 21:02:58 by wphokomp         ###   ########.fr       */
+/*   Created: 2017/06/04 11:56:15 by wphokomp          #+#    #+#             */
+/*   Updated: 2017/07/18 08:18:10 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_striter(char *s, void (*f)(char *))
 {
 	int i;
 
+	if (s == NULL)
+		return ;
 	i = 0;
-	while (s[i] != c)
+	while (s[i])
 	{
-		if (s[i] == '\0')
-			return (NULL);
+		f(&s[i]);
 		i++;
 	}
-	return ((char*)&s[i]);
 }

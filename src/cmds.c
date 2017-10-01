@@ -6,29 +6,17 @@
 /*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 12:46:48 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/18 15:52:40 by wphokomp         ###   ########.fr       */
+/*   Updated: 2017/09/28 20:02:11 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_write(char *str)
-{
-	int		ret;
-
-	ret = 0;
-	if (!ft_strcmp(str, ">"))
-		ret = 1;
-	else if (!ft_strcmp(str, ">>"))
-		ret = 2;
-	return (ret);
-}
-
-char	*ft_trim(char const *s, int *u)
+char	*ft_trim(char const *s)
 {
 	int		i;
 	int		x;
-	char 	*ret;
+	char	*ret;
 
 	i = -1;
 	x = ft_strlen(s) - 1;
@@ -36,10 +24,8 @@ char	*ft_trim(char const *s, int *u)
 		x--;
 	if (x == 0)
 		return ("");
-	while (s[++i] == '"');
-	while (s[x] == '"');
-	if (i > -1 || x == (int)ft_strlen(s) - 1)
-		*u = 0;
+	while (s[++i] == '"')
+		;
 	ret = ft_strsub(s, i, (x - i) + 1);
 	return (ret);
 }
@@ -47,37 +33,31 @@ char	*ft_trim(char const *s, int *u)
 void	ft_echo(t_env *e)
 {
 	int		i;
-	int		u;
-	int		fd;
 	char	*str;
 
 	i = 0;
-	u = -1;
 	while (e->args[++i])
+	{
+		str = ft_strjoin(e->args[i], ft_strjoin(" ", e->args[i + 1]));
+		free(e->args[i + 1]);
+		e->args[i + 1] = NULL;
 		if (e->args[i][0] == '$')
 		{
 			str = ft_getenv(&e->args[i][1], e);
 			if (str)
 				ft_putendl(str);
 		}
-		else if (ft_write(e->args[i]) == 1)
-		{
-			fd = open(e->args[i + 1], O_RDWR | O_CREAT, 770);
-			ft_putstr_fd(ft_trim(e->args[1], &u), fd);
-		}
-		else if (ft_write(e->args[i]) == 2)
-		{
-			fd = open (e->args[i + 1], O_RDWR | O_CREAT | O_APPEND, 770);
-			ft_putstr_fd(ft_trim(e->args[1], &u), fd);
-		}
-	if (u == 0)
-		ft_putendl(ft_trim(e->args[1], &u));
+		else
+			ft_putendl(ft_trim(str));
+	}
 }
 
 int		search_paths(t_env *e)
 {
 	t_search	e_s;
 
+	if (!ft_getenv("PATH", e))
+		return (8);
 	e_s.path = ft_strsplit(ft_getenv("PATH", e), ':');
 	e_s.i = 0;
 	while (e_s.i > -1 && e_s.path[e_s.i])
@@ -113,4 +93,25 @@ void	run_cmd(t_env *e)
 	e->args[0] = ft_strdup(tab[len - 1]);
 	run_exec(path, e);
 	free_tab(tab);
+}
+
+void	ft_changepwd(t_env *e)
+{
+	int		y;
+	int		chk;
+	char	buff[1000];
+
+	y = -1;
+	chk = 0;
+	while (e->env[++y])
+		if (!ft_strncmp(e->env[y], "OLDPWD", 6))
+			e->env[y] = ft_replace_env(&chk,
+					ft_strjoin("OLDPWD=", ft_getenv("PWD", e)), e->env[y]);
+	y = -1;
+	chk = 0;
+	while (e->env[++y])
+		if (!ft_strncmp(e->env[y], ft_strjoin("PWD=", getwd(buff))
+					, ft_indexof(ft_strjoin("PWD=", getwd(buff)), '=')))
+			e->env[y] = ft_replace_env(&chk, ft_strjoin("PWD=", getwd(buff))
+					, e->env[y]);
 }

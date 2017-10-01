@@ -6,7 +6,7 @@
 /*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 12:30:38 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/18 15:28:28 by wphokomp         ###   ########.fr       */
+/*   Updated: 2017/09/28 22:06:07 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ void	sig(int signum)
 
 int		search_cmds(t_env *e)
 {
+	if (!e->args[0] || !ft_strcmp(e->args[0], ft_itoa(9)))
+		return (0);
 	if (!ft_strcmp(e->args[0], "cd"))
-	{
-		if (!e->args[1] || chdir(e->args[1]) != 0)
-			ft_putendl("cd: directory not found");
-	}
+		ft_cd(e);
 	else if (!ft_strcmp(e->args[0], "echo"))
 		ft_echo(e);
 	else if (!ft_strcmp(e->args[0], "setenv"))
@@ -44,22 +43,24 @@ int		search_cmds(t_env *e)
 	}
 	else if (!ft_strcmp(e->args[0], "env"))
 		ft_env(e);
-	else if (!ft_strcmp(e->args[0], "ls") || !ft_strcmp(e->args[0], "clear"))
-		return (search_paths(e));
 	else
-		ft_putendl("Command not found");
+		return (search_paths(e));
 	return (0);
 }
 
 void	process_ln(t_env *e)
 {
 	int		i;
+	int		k;
 
 	i = 0;
+	k = -1;
 	e->cmds = ft_strsplit(e->ln, ';');
 	while (e->cmds[i])
 	{
-		e->args = ft_strsplit(e->cmds[i], ' ');
+		e->args = ft_strsplit(ft_strtrim(e->cmds[i]), ' ');
+		while (e->args[++k])
+			e->args[k] = ft_strtrim(e->args[k]);
 		if (search_cmds(e) > 0)
 			run_cmd(e);
 		i++;
@@ -89,7 +90,7 @@ void	begin_shell(t_env *e)
 	}
 }
 
-int		main()
+int		main(void)
 {
 	t_env	e;
 

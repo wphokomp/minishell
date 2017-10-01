@@ -6,7 +6,7 @@
 /*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 12:47:25 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/18 14:17:36 by wphokomp         ###   ########.fr       */
+/*   Updated: 2017/09/26 17:41:02 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <signal.h>
 # include <sys/types.h>
 
-typedef struct	s_env		t_env;
-typedef struct	s_search	t_search;
+typedef struct s_env	t_env;
+typedef struct s_search	t_search;
 
 extern pid_t	g_pid;
 
@@ -53,7 +53,9 @@ void	run_cmd(t_env *e);
 void	get_env(t_env *e);
 void	ft_setenv(t_env *e);
 void	run_exec(char *path, t_env *e);
-int 	ft_unsetenv(t_env *e);
+void	ft_changepwd(t_env *e);
+void	ft_cd(t_env *e);
+int		ft_unsetenv(t_env *e);
 int		search_paths(t_env *e);
 
 #endif

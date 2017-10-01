@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: wphokomp <emarvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 12:34:13 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/22 21:02:58 by wphokomp         ###   ########.fr       */
+/*   Created: 2017/05/25 10:33:37 by wphokomp          #+#    #+#             */
+/*   Updated: 2017/07/21 10:59:03 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_bzero(void *s, size_t n)
 {
-	int i;
+	int		i;
+	char	*str;
 
+	str = (char*)s;
 	i = 0;
-	while (s[i] != c)
+	while (i < (int)n)
 	{
-		if (s[i] == '\0')
-			return (NULL);
+		str[i] = 0;
 		i++;
 	}
-	return ((char*)&s[i]);
+	s = (void*)str;
 }

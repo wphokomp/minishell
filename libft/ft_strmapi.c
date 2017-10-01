@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 12:34:13 by wphokomp          #+#    #+#             */
-/*   Updated: 2017/09/22 21:02:58 by wphokomp         ###   ########.fr       */
+/*   Created: 2017/06/04 12:56:25 by wphokomp          #+#    #+#             */
+/*   Updated: 2017/07/18 08:20:13 by wphokomp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int i;
+	int		i;
+	char	*str;
 
+	if (s == NULL)
+		return (NULL);
 	i = 0;
-	while (s[i] != c)
+	str = (char*)ft_memalloc(ft_strlen(s) + 1);
+	if (str == NULL)
+		return (NULL);
+	while (s[i])
 	{
-		if (s[i] == '\0')
-			return (NULL);
+		str[i] = f(i, s[i]);
 		i++;
 	}
-	return ((char*)&s[i]);
+	return (str);
 }

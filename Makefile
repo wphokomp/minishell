@@ -6,13 +6,14 @@
 #    By: wphokomp <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/18 11:16:25 by wphokomp          #+#    #+#              #
-#    Updated: 2017/09/18 14:10:33 by wphokomp         ###   ########.fr        #
+#    Updated: 2017/09/26 17:41:30 by wphokomp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = src/cmds.c src/memory.c src/main.c src/env.c lib/libft.a
+SRC = src/cmds.c src/memory.c src/main.c src/env.c lib/libft.a\
+	  src/cmds_.c
 
 FLAGS = clang -Werror -Wextra -Wall -g -I includes -o
 
